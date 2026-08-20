@@ -127,9 +127,11 @@ def api_stats():
 @app.route("/api/accounts", methods=["POST"])
 @require_role("owner")
 def api_add_account():
-    raw = (request.get_json(silent=True) or {}).get("username", "")
+    body = request.get_json(silent=True) or {}
+    raw = body.get("username", "")
+    source = body.get("source") or None
     try:
-        username = db.add_account(raw)
+        username = db.add_account(raw, source=source)
     except db.InvalidUsername as exc:
         return jsonify({"error": str(exc)}), 400
 
@@ -143,7 +145,9 @@ def api_add_account():
 @app.route("/api/accounts/bulk", methods=["POST"])
 @require_role("owner")
 def api_bulk_add_accounts():
-    text = (request.get_json(silent=True) or {}).get("text", "")
+    body = request.get_json(silent=True) or {}
+    text = body.get("text", "")
+    source = body.get("source") or None
     tokens = [t for t in re.split(r"[\s,]+", text) if t]
 
     added = []
@@ -151,7 +155,7 @@ def api_bulk_add_accounts():
     seen = set()
     for token in tokens:
         try:
-            username = db.add_account(token)
+            username = db.add_account(token, source=source)
         except db.InvalidUsername:
             invalid.append(token)
             continue
@@ -171,6 +175,17 @@ def api_bulk_add_accounts():
 def api_remove_account(username):
     db.remove_account(username)
     return jsonify({"removed": username})
+
+
+@app.route("/api/accounts/<username>/source", methods=["PUT"])
+@require_role("owner")
+def api_set_account_source(username):
+    source = (request.get_json(silent=True) or {}).get("source") or None
+    try:
+        db.set_source(username, source)
+    except ValueError as exc:
+        return jsonify({"error": str(exc)}), 400
+    return jsonify({"username": username, "source": source})
 
 
 @app.route("/api/refresh", methods=["POST"])

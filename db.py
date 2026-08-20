@@ -66,7 +66,8 @@ def init_db():
             """
             CREATE TABLE IF NOT EXISTS accounts (
                 username TEXT PRIMARY KEY,
-                added_at TEXT NOT NULL
+                added_at TEXT NOT NULL,
+                source TEXT
             )
             """
         )
@@ -98,16 +99,35 @@ def init_db():
             conn.execute("ALTER TABLE snapshots ADD COLUMN profile_pic_url TEXT")
         if "reels_json" not in existing_cols:
             conn.execute("ALTER TABLE snapshots ADD COLUMN reels_json TEXT")
+        existing_account_cols = {row["name"] for row in conn.execute("PRAGMA table_info(accounts)")}
+        if "source" not in existing_account_cols:
+            conn.execute("ALTER TABLE accounts ADD COLUMN source TEXT")
 
 
-def add_account(raw_username):
+SOURCES = {"proxy", "sim"}
+
+
+def add_account(raw_username, source=None):
     username = normalize_username(raw_username)
+    if source is not None and source not in SOURCES:
+        source = None
     with get_conn() as conn:
         conn.execute(
-            "INSERT OR IGNORE INTO accounts (username, added_at) VALUES (?, ?)",
-            (username, datetime.utcnow().isoformat()),
+            "INSERT OR IGNORE INTO accounts (username, added_at, source) VALUES (?, ?, ?)",
+            (username, datetime.utcnow().isoformat(), source),
         )
+        if source is not None:
+            conn.execute(
+                "UPDATE accounts SET source = ? WHERE username = ?", (source, username)
+            )
     return username
+
+
+def set_source(username, source):
+    if source is not None and source not in SOURCES:
+        raise ValueError(f"source must be one of {SOURCES} or null")
+    with get_conn() as conn:
+        conn.execute("UPDATE accounts SET source = ? WHERE username = ?", (source, username))
 
 
 def remove_account(username):
@@ -117,7 +137,7 @@ def remove_account(username):
 
 def list_accounts():
     with get_conn() as conn:
-        rows = conn.execute("SELECT username, added_at FROM accounts ORDER BY added_at").fetchall()
+        rows = conn.execute("SELECT username, added_at, source FROM accounts ORDER BY added_at").fetchall()
         return [dict(r) for r in rows]
 
 
@@ -188,7 +208,7 @@ def dashboard_rows():
     and follower growth over the 24h / 7d / 30d windows."""
     now = datetime.utcnow()
     with get_conn() as conn:
-        accounts = conn.execute("SELECT username, added_at FROM accounts ORDER BY added_at").fetchall()
+        accounts = conn.execute("SELECT username, added_at, source FROM accounts ORDER BY added_at").fetchall()
         out = []
         for acct in accounts:
             username = acct["username"]
@@ -209,6 +229,7 @@ def dashboard_rows():
             entry = {
                 "username": username,
                 "added_at": acct["added_at"],
+                "source": acct["source"],
                 "latest": latest,
                 "category": category,
                 "since_last_followers": None,

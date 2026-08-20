@@ -6,69 +6,93 @@
 <title>IG Stats Tracker</title>
 <style>
   :root {
-    --surface-1:      #fcfcfb;
-    --surface-2:      #f4f3f0;
-    --page-plane:     #f9f9f7;
-    --text-primary:   #0b0b0b;
-    --text-secondary: #52514e;
-    --muted:          #898781;
-    --gridline:       #ececE7;
-    --border:         rgba(11,11,11,0.09);
-    --border-strong:  rgba(11,11,11,0.15);
-    --good:           #0ca30c;
-    --warning:        #b5790f;
-    --serious:        #c1552f;
-    --critical:       #d03b3b;
-    --good-bg:        rgba(12,163,12,0.10);
-    --warning-bg:     rgba(181,121,15,0.12);
-    --serious-bg:     rgba(193,85,47,0.12);
-    --critical-bg:    rgba(208,59,59,0.10);
-    --accent:         #2a78d6;
+    --surface-1:      #ffffff;
+    --surface-2:      #f0edf6;
+    --page-plane:     #f7f5fa;
+    --text-primary:   #1d1926;
+    --text-secondary: #6b6577;
+    --muted:          #9a93a8;
+    --gridline:       #e3deec;
+    --border:         #e3deec;
+    --border-strong:  #cfc7de;
+    --good:           #2f9e5b;
+    --warning:        #a8721c;
+    --serious:        #b23a3a;
+    --critical:       #c43d54;
+    --good-bg:        #e7f6ed;
+    --warning-bg:     #fbf1df;
+    --serious-bg:     #fbeaea;
+    --critical-bg:    #fbeaec;
+    --breakout:       #1d8fb0;
+    --breakout-bg:    #e4f4f8;
+    --accent:         #6152d9;
+    --accent-soft:    #edeafb;
     --accent-ink:     #ffffff;
-    --shadow:         0 1px 2px rgba(11,11,11,0.04), 0 6px 20px rgba(11,11,11,0.04);
+    --tag-proxy:      #6152d9;
+    --tag-proxy-bg:   #edeafb;
+    --tag-sim:        #0d8f82;
+    --tag-sim-bg:     #e2f5f2;
+    --shadow:         0 1px 2px rgba(29,25,38,0.04), 0 8px 24px rgba(29,25,38,0.06);
   }
   @media (prefers-color-scheme: dark) {
-    :root {
-      --surface-1:      #1c1d1f;
-      --surface-2:      #232426;
-      --page-plane:     #101112;
-      --text-primary:   #f5f5f4;
-      --text-secondary: #c3c2b7;
-      --muted:          #8f8d86;
-      --gridline:       #2c2c2e;
-      --border:         rgba(255,255,255,0.08);
-      --border-strong:  rgba(255,255,255,0.16);
-      --good:           #37c837;
-      --warning:        #fab219;
-      --serious:        #ec835a;
-      --critical:       #f0605f;
-      --good-bg:        rgba(55,200,55,0.14);
-      --warning-bg:     rgba(250,178,25,0.14);
-      --serious-bg:     rgba(236,131,90,0.14);
-      --critical-bg:    rgba(240,96,95,0.14);
-      --accent:         #4a92ea;
-      --accent-ink:     #06121f;
-      --shadow:         0 1px 2px rgba(0,0,0,0.4), 0 6px 24px rgba(0,0,0,0.3);
+    :root:not([data-theme="light"]) {
+      --surface-1:      #1d1926;
+      --surface-2:      #241f30;
+      --page-plane:     #15121c;
+      --text-primary:   #f1edf5;
+      --text-secondary: #a79fb0;
+      --muted:          #756e82;
+      --gridline:       #322c3e;
+      --border:         #322c3e;
+      --border-strong:  #453d57;
+      --good:           #6fcf97;
+      --warning:        #e3ac55;
+      --serious:        #f2828b;
+      --critical:       #f27c8d;
+      --good-bg:        #1b3325;
+      --warning-bg:     #362a18;
+      --serious-bg:     #3a2020;
+      --critical-bg:    #3a1f26;
+      --breakout:       #6bc8e0;
+      --breakout-bg:    #172e36;
+      --accent:         #9384ff;
+      --accent-soft:    #2a2440;
+      --accent-ink:     #15121c;
+      --tag-proxy:      #9384ff;
+      --tag-proxy-bg:   #2a2440;
+      --tag-sim:        #4fc9bb;
+      --tag-sim-bg:     #17332f;
+      --shadow:         0 1px 2px rgba(0,0,0,0.25), 0 8px 24px rgba(0,0,0,0.4);
     }
   }
   * { box-sizing: border-box; }
   body {
     margin: 0;
-    font-family: system-ui, -apple-system, "Segoe UI", sans-serif;
+    font-family: ui-sans-serif, -apple-system, "Segoe UI", Roboto, sans-serif;
     background: var(--page-plane);
     color: var(--text-primary);
+    font-size: 15px;
     -webkit-font-smoothing: antialiased;
   }
-  .wrap { max-width: 1200px; margin: 0 auto; padding: 36px 24px 64px; }
+  .wrap { max-width: 1240px; margin: 0 auto; padding: 40px 24px 72px; }
 
-  header { margin-bottom: 22px; }
-  h1 { font-size: 21px; margin: 0 0 4px; letter-spacing: -0.01em; font-weight: 700; }
-  .sub { color: var(--text-secondary); font-size: 13.5px; }
+  header { margin-bottom: 26px; display: flex; flex-direction: column; gap: 6px; }
+  .eyebrow {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 12px; letter-spacing: 0.08em; text-transform: uppercase;
+    color: var(--accent);
+  }
+  h1 {
+    font-family: Georgia, "Iowan Old Style", "Times New Roman", serif;
+    font-size: 30px; margin: 0; font-weight: 600;
+    letter-spacing: -0.01em; text-wrap: balance;
+  }
+  .sub { color: var(--text-secondary); font-size: 14px; max-width: 62ch; }
 
   .card {
     background: var(--surface-1);
     border: 1px solid var(--border);
-    border-radius: 14px;
+    border-radius: 12px;
     box-shadow: var(--shadow);
   }
 
@@ -89,9 +113,9 @@
     line-height: 1.4;
   }
   .add-bar textarea::placeholder { color: var(--muted); }
-  .add-bar textarea:focus { outline: 2px solid var(--accent); outline-offset: -1px; }
+  .add-bar textarea:focus-visible { outline: 2px solid var(--accent); outline-offset: -1px; }
   .add-bar button { flex-shrink: 0; }
-  .add-hint { color: var(--muted); font-size: 12px; padding: 0 4px 18px; }
+  .add-hint { color: var(--muted); font-size: 12px; padding: 0 4px 20px; }
 
   button {
     font: inherit;
@@ -101,9 +125,10 @@
     border-radius: 9px;
     border: none;
     cursor: pointer;
-    transition: opacity 0.12s ease;
+    transition: opacity 0.12s ease, background 0.12s ease;
   }
-  button:hover { opacity: 0.88; }
+  button:hover { opacity: 0.9; }
+  button:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
   .btn-primary { background: var(--accent); color: var(--accent-ink); }
   .btn-primary:disabled { opacity: 0.5; cursor: default; }
 
@@ -111,17 +136,20 @@
   .tiles {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 12px;
-    margin-bottom: 18px;
+    gap: 10px;
+    margin-bottom: 20px;
   }
-  .tile { padding: 16px 18px; }
+  .tile { padding: 14px 16px; }
   .tile .label {
-    font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.05em;
-    color: var(--muted); font-weight: 700; margin-bottom: 7px;
+    font-size: 11px; text-transform: uppercase; letter-spacing: 0.05em;
+    color: var(--muted); font-weight: 600; margin-bottom: 6px;
   }
-  .tile .value { font-size: 25px; font-weight: 700; font-variant-numeric: tabular-nums; letter-spacing: -0.01em; }
+  .tile .value {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 24px; font-weight: 600; font-variant-numeric: tabular-nums; letter-spacing: -0.01em;
+  }
   .tile.jail .value { color: var(--critical); }
-  .tile.breaking .value { color: var(--good); }
+  .tile.breaking .value { color: var(--breakout); }
 
   /* controls */
   .controls {
@@ -130,36 +158,42 @@
     justify-content: space-between;
     gap: 12px;
     flex-wrap: wrap;
-    margin-bottom: 10px;
+    margin-bottom: 12px;
   }
   .chips { display: flex; gap: 6px; flex-wrap: wrap; }
   .chip {
-    font-size: 12.5px;
-    font-weight: 600;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 12px;
+    font-weight: 500;
     padding: 6px 12px;
     border-radius: 999px;
     border: 1px solid var(--border-strong);
     background: transparent;
     color: var(--text-secondary);
     cursor: pointer;
+    transition: background 0.12s ease, color 0.12s ease, border-color 0.12s ease;
   }
-  .chip:hover { opacity: 1; background: var(--surface-2); }
-  .chip.active { background: var(--text-primary); color: var(--surface-1); border-color: var(--text-primary); }
+  .chip:hover { border-color: var(--accent); color: var(--text-primary); }
+  .chip:focus-visible { outline: 2px solid var(--accent); outline-offset: 2px; }
+  .chip.active { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
   .status { color: var(--muted); font-size: 12.5px; min-height: 16px; margin-bottom: 10px; }
 
   /* table */
   .table-card { overflow-x: auto; }
   table { width: 100%; border-collapse: collapse; font-size: 13px; min-width: 1180px; }
-  th, td { text-align: left; padding: 10px 13px; border-bottom: 1px solid var(--gridline); white-space: nowrap; }
+  th, td { text-align: left; padding: 11px 13px; border-bottom: 1px solid var(--gridline); white-space: nowrap; }
   th {
-    color: var(--muted); font-weight: 700; font-size: 10.5px;
+    color: var(--muted); font-weight: 600; font-size: 11px;
     text-transform: uppercase; letter-spacing: 0.04em;
     position: sticky; top: 0; background: var(--surface-1);
   }
   tbody tr:last-child td { border-bottom: none; }
   tbody tr { transition: background 0.1s ease; }
   tbody tr:hover { background: var(--surface-2); }
-  td.num, th.num { font-variant-numeric: tabular-nums; text-align: right; }
+  td.num, th.num {
+    font-variant-numeric: tabular-nums; text-align: right;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+  }
 
   .acct-cell { display: flex; align-items: center; gap: 10px; }
   .remove-btn {
@@ -195,7 +229,7 @@
     padding: 9px 12px; display: flex; align-items: center; gap: 6px;
   }
   .view-toggle button:hover { opacity: 1; background: var(--surface-2); }
-  .view-toggle button.active { background: var(--text-primary); color: var(--surface-1); }
+  .view-toggle button.active { background: var(--accent); color: var(--accent-ink); }
   .view-toggle svg { width: 15px; height: 15px; }
 
   /* card / vertical grid view */
@@ -212,13 +246,16 @@
   .card-remove-btn:hover { color: var(--critical); background: var(--critical-bg); opacity: 1; }
 
   .card-stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 10px 14px; }
-  .card-stat .card-stat-label { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); font-weight: 700; margin-bottom: 2px; }
-  .card-stat .card-stat-value { font-size: 15.5px; font-weight: 700; font-variant-numeric: tabular-nums; }
-  .card-windows { display: flex; gap: 12px; font-size: 12px; padding-top: 2px; border-top: 1px solid var(--gridline); }
+  .card-stat .card-stat-label { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); font-weight: 600; margin-bottom: 2px; }
+  .card-stat .card-stat-value {
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 15px; font-weight: 600; font-variant-numeric: tabular-nums;
+  }
+  .card-windows { display: flex; gap: 12px; font-size: 12px; padding-top: 2px; border-top: 1px solid var(--gridline); font-family: ui-monospace, "SF Mono", Menlo, monospace; }
   .card-windows > div { display: flex; flex-direction: column; gap: 2px; }
-  .card-windows .w-label { color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: 0.03em; }
+  .card-windows .w-label { color: var(--muted); font-size: 10px; text-transform: uppercase; letter-spacing: 0.03em; font-family: ui-sans-serif, sans-serif; }
 
-  .card-reels-label { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); font-weight: 700; }
+  .card-reels-label { font-size: 10.5px; text-transform: uppercase; letter-spacing: 0.04em; color: var(--muted); font-weight: 600; }
   .card-reels { display: flex; gap: 8px; overflow-x: auto; padding-bottom: 2px; }
   .reel-thumb {
     position: relative; flex-shrink: 0; width: 64px; height: 64px;
@@ -235,15 +272,39 @@
 
   .badge {
     display: inline-flex; align-items: center; gap: 5px;
-    font-size: 11.5px; font-weight: 700;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 11px; font-weight: 500;
     padding: 4px 9px; border-radius: 999px; white-space: nowrap;
   }
   .badge.view_jail { background: var(--critical-bg); color: var(--critical); }
   .badge.low       { background: var(--warning-bg); color: var(--warning); }
-  .badge.solid     { background: var(--border); color: var(--text-secondary); }
-  .badge.breaking_out { background: var(--good-bg); color: var(--good); }
+  .badge.solid     { background: var(--good-bg); color: var(--good); }
+  .badge.breaking_out { background: var(--breakout-bg); color: var(--breakout); }
   .badge.error     { background: var(--serious-bg); color: var(--serious); }
-  .badge.no_data   { background: var(--border); color: var(--muted); }
+  .badge.no_data   { background: var(--surface-2); color: var(--muted); }
+
+  .tag-source {
+    display: inline-flex; align-items: center; gap: 4px;
+    font-family: ui-monospace, "SF Mono", Menlo, monospace;
+    font-size: 10.5px; font-weight: 600; letter-spacing: 0.02em;
+    padding: 3px 8px; border-radius: 999px; white-space: nowrap;
+    cursor: pointer; border: none;
+  }
+  .tag-source.proxy { background: var(--tag-proxy-bg); color: var(--tag-proxy); }
+  .tag-source.sim { background: var(--tag-sim-bg); color: var(--tag-sim); }
+  .tag-source.untagged { background: transparent; color: var(--muted); border: 1px dashed var(--border-strong); }
+  .tag-source:hover { opacity: 0.8; }
+
+  .source-select {
+    font: inherit;
+    font-size: 13px;
+    padding: 9px 10px;
+    border-radius: 9px;
+    border: 1px solid var(--border-strong);
+    background: var(--page-plane);
+    color: var(--text-primary);
+    flex-shrink: 0;
+  }
 
   .stat-main { font-weight: 600; }
   .since-delta { display: block; font-size: 11px; font-weight: 600; margin-top: 1px; }
@@ -259,7 +320,7 @@
     background: var(--critical); margin-left: 4px; cursor: help; flex-shrink: 0;
   }
 
-  .empty { padding: 52px 24px; text-align: center; color: var(--muted); font-size: 14px; }
+  .empty { padding: 56px 24px; text-align: center; color: var(--muted); font-size: 14px; }
 </style>
 </head>
 <body>
@@ -271,9 +332,14 @@
 
   <div class="card add-bar">
     <textarea id="new-username" rows="1" placeholder="Paste usernames — one per line, or separated by commas/spaces" autocomplete="off"></textarea>
+    <select class="source-select" id="new-source" title="Tag these accounts by warm-up method">
+      <option value="">No tag</option>
+      <option value="proxy">Proxy</option>
+      <option value="sim">SIM</option>
+    </select>
     <button class="btn-primary" id="add-btn">Add accounts</button>
   </div>
-  <div class="add-hint">Paste your whole list at once — it'll add and fetch all of them together.</div>
+  <div class="add-hint">Paste your whole list at once — it'll add and fetch all of them together. Tag applies to the whole batch; click an account's tag later to change it.</div>
   <div id="add-error"></div>
 
   <div class="tiles">
@@ -304,6 +370,12 @@
       <button class="chip" data-filter="breaking_out">🚀 Breaking Out</button>
       <button class="chip" data-filter="error">⚠️ Fetch Error</button>
       <button class="chip" data-filter="no_data">Not fetched</button>
+    </div>
+    <div class="chips" id="source-chips" style="margin-left:10px;">
+      <button class="chip active" data-source="all">Any source</button>
+      <button class="chip" data-source="proxy">Proxy</button>
+      <button class="chip" data-source="sim">SIM</button>
+      <button class="chip" data-source="untagged">Untagged</button>
     </div>
     <div style="display:flex; gap:10px; align-items:center;">
       <div class="view-toggle" id="view-toggle">
@@ -356,12 +428,15 @@ const tbody = table.querySelector('tbody');
 const gridEl = document.getElementById('grid');
 const emptyEl = document.getElementById('empty');
 const chipsEl = document.getElementById('chips');
+const sourceChipsEl = document.getElementById('source-chips');
 const viewToggleEl = document.getElementById('view-toggle');
 const newUsernameInput = document.getElementById('new-username');
+const newSourceSelect = document.getElementById('new-source');
 const addBtn = document.getElementById('add-btn');
 const addErrorEl = document.getElementById('add-error');
 
 let currentFilter = 'all';
+let currentSourceFilter = 'all';
 let currentView = new URLSearchParams(location.search).get('view') || localStorage.getItem('igt-view') || 'table';
 let lastAccounts = [];
 
@@ -448,10 +523,37 @@ function updateTiles(accounts) {
   document.getElementById('tile-breaking').textContent = fmt(breaking);
 }
 
+function sourceTagHtml(username, source) {
+  const cls = source === 'proxy' ? 'proxy' : source === 'sim' ? 'sim' : 'untagged';
+  const label = source === 'proxy' ? 'Proxy' : source === 'sim' ? 'SIM' : '+ tag';
+  return `<button class="tag-source ${cls}" data-username="${username}" data-source="${source || ''}" title="Click to change tier">${label}</button>`;
+}
+
+async function cycleSource(username, current) {
+  const next = current === '' ? 'proxy' : current === 'proxy' ? 'sim' : '';
+  const res = await fetch(`/api/accounts/${encodeURIComponent(username)}/source`, {
+    method: 'PUT',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ source: next || null }),
+  });
+  if (res.ok) await loadStats();
+}
+
+function attachSourceTagHandlers(root) {
+  root.querySelectorAll('.tag-source').forEach(btn => {
+    btn.addEventListener('click', () => cycleSource(btn.dataset.username, btn.dataset.source));
+  });
+}
+
 function sortedFilteredAccounts() {
   let accounts = lastAccounts;
   if (currentFilter !== 'all') {
     accounts = accounts.filter(a => a.category === currentFilter);
+  }
+  if (currentSourceFilter !== 'all') {
+    accounts = currentSourceFilter === 'untagged'
+      ? accounts.filter(a => !a.source)
+      : accounts.filter(a => a.source === currentSourceFilter);
   }
   return [...accounts].sort((a, b) => {
     const rankDiff = CATEGORY_RANK[a.category] - CATEGORY_RANK[b.category];
@@ -484,6 +586,7 @@ function renderTable(accounts) {
         <button class="remove-btn" data-username="${a.username}" title="Remove @${a.username}">×</button>
         ${avatarHtml(a.username, s.profile_pic_url)}
         <a class="acct-name" href="${profileUrl}" target="_blank" rel="noopener noreferrer">@${a.username}</a>${errDot}
+        ${sourceTagHtml(a.username, a.source)}
       </div></td>
       <td><span class="badge ${a.category}">${CATEGORY_LABEL[a.category]}</span></td>
       <td class="num">
@@ -510,6 +613,7 @@ function renderTable(accounts) {
     btn.addEventListener('click', () => removeAccount(btn.dataset.username));
   });
   attachAvatarFallbacks(tbody);
+  attachSourceTagHandlers(tbody);
 }
 
 function renderGrid(accounts) {
@@ -525,7 +629,10 @@ function renderGrid(accounts) {
             <a class="acct-name" href="${profileUrl}" target="_blank" rel="noopener noreferrer">@${a.username}</a>${errDot}
             <button class="card-remove-btn" data-username="${a.username}" title="Remove @${a.username}">×</button>
           </div>
-          <span class="badge ${a.category}" style="width:fit-content">${CATEGORY_LABEL[a.category]}</span>
+          <div class="acct-card-head-row">
+            <span class="badge ${a.category}" style="width:fit-content">${CATEGORY_LABEL[a.category]}</span>
+            ${sourceTagHtml(a.username, a.source)}
+          </div>
         </div>
       </div>
 
@@ -568,6 +675,7 @@ function renderGrid(accounts) {
     btn.addEventListener('click', () => removeAccount(btn.dataset.username));
   });
   attachAvatarFallbacks(gridEl);
+  attachSourceTagHandlers(gridEl);
 }
 
 function render() {
@@ -640,7 +748,7 @@ async function addAccount() {
     const res = await fetch('/api/accounts/bulk', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({ text }),
+      body: JSON.stringify({ text, source: newSourceSelect.value || null }),
     });
     const data = await res.json();
     if (!res.ok) {
@@ -703,6 +811,15 @@ chipsEl.addEventListener('click', (e) => {
   chipsEl.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
   btn.classList.add('active');
   currentFilter = btn.dataset.filter;
+  render();
+});
+
+sourceChipsEl.addEventListener('click', (e) => {
+  const btn = e.target.closest('.chip');
+  if (!btn) return;
+  sourceChipsEl.querySelectorAll('.chip').forEach(c => c.classList.remove('active'));
+  btn.classList.add('active');
+  currentSourceFilter = btn.dataset.source;
   render();
 });
 
