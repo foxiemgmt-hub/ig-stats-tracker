@@ -22,6 +22,10 @@ def _load_credentials():
         if "=" in line:
             key, _, value = line.partition("=")
             creds[key.strip()] = value.strip()
+    for key in ("owner_password", "viewer_password"):
+        env_value = os.environ.get(key.upper())
+        if env_value:
+            creds[key] = env_value
     return creds
 
 

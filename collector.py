@@ -6,6 +6,8 @@ pool, their own anti-block handling) - this app just calls their API and
 parses the result. Replaces an earlier from-scratch approach that hit
 Instagram's endpoints directly, which proved unreliable at any real volume.
 """
+import os
+
 import requests
 
 ACTOR_RUN_URL = "https://api.apify.com/v2/acts/apify~instagram-profile-scraper/run-sync-get-dataset-items"
@@ -20,6 +22,9 @@ def load_lines(path):
 
 
 def load_token(path="apify_token.txt"):
+    env_token = os.environ.get("APIFY_TOKEN")
+    if env_token:
+        return env_token
     lines = load_lines(path)
     return lines[0] if lines else None
 
